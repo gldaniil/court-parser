@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const urlRouter = require('./routes/urlRouter')
 const courtRouter = require('./routes/courtRouter')
+const db = require('./config/database')
 
 const app = express()
 
