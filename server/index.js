@@ -1,14 +1,16 @@
 const express = require('express')
+const cors = require('cors')
+const urlRouter = require('./routes/urlRouter')
+const courtRouter = require('./routes/courtRouter')
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
-app.get('/api/test', (req, res) => {
-  console.log('Request on /api/test');
-  res.status(200).send('Success!')
-})
+app.use('/api/urls', urlRouter)
+app.use('/api/courts', courtRouter)
 
 app.listen(3000, () => {
-  console.log('Server is running');
+  console.log('Server is running')
 })
