@@ -7,7 +7,7 @@
     >
       <nav class="flex place-items-center flex-col gap-4 px-2">
         <RouterLink
-          class="text-white duration-200"
+          class="text-white hover:text-gray-400 duration-200"
           v-for="path in paths"
           :key="path.to"
           :to="path.to"
@@ -31,6 +31,10 @@ const paths = [
   {
     to: '/',
     icon: 'co-home'
+  },
+  {
+    to: '/editing',
+    icon: 'bi-plus-circle'
   },
   {
     to: '/about',
