@@ -10,15 +10,5 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import axios from 'axios'
 import TheTitle from '../components/TheTitle.vue'
-
-onMounted(() => {
-  const getCourts = async () => {
-    const { data } = await axios.get('http://localhost:3000/api/test')
-    console.log(data)
-  }
-  getCourts()
-})
 </script>
