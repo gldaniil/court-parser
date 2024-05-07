@@ -9,13 +9,15 @@
           <h3 class="text-xl text-white text-center pb-2 mb-2">
             Список таблиц
           </h3>
-          <button
-            class="shadow-lg text-lg font-semibold bg-white text-violet-400 hover:text-white hover:bg-violet-400 duration-300 px-4 py-3 rounded-xl w-full"
-            v-for="table in tables"
-            :key="table"
-          >
-            {{ table }}
-          </button>
+          <div class="flex flex-col gap-3">
+            <TheButton
+              v-for="tab in tabs"
+              :key="tab.id"
+              :text="tab.title"
+              :isActive="tab.id === activeTab"
+              @clickOnTab="() => handleClickTab(tab.id)"
+            />
+          </div>
         </aside>
         <article class="text-white flex-auto pl-4">
           <p>
@@ -29,10 +31,27 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import TheTitle from '../components/TheTitle.vue'
+import TheButton from '../components/UI/TheButton.vue'
 
-const tables = ['Суды']
+const activeTab = ref(0)
+const tabs = [
+  {
+    id: 1,
+    title: 'Суды'
+  },
+  {
+    id: 2,
+    title: 'Города'
+  }
+]
 const actions = ['Добавить', 'Удалить']
+
+const handleClickTab = (id) => {
+  console.log(id)
+  activeTab.value = id
+}
 </script>
 
 <style scoped>
