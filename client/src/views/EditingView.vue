@@ -20,10 +20,18 @@
           </div>
         </aside>
         <article class="text-white flex-auto pl-4">
-          <p>
+          <p v-if="!activeTab">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum modi
             mollitia dicta temporibus similique sit!
           </p>
+          <template v-for="tab in tabs">
+            <TheTab
+              :key="tab.id"
+              v-if="tab.id === activeTab"
+              :title="tab.title"
+              :actions="actions"
+            />
+          </template>
         </article>
       </div>
     </div>
@@ -34,6 +42,7 @@
 import { ref } from 'vue'
 import TheTitle from '../components/TheTitle.vue'
 import TheButton from '../components/UI/TheButton.vue'
+import TheTab from '../components/UI/Editing/TheTab.vue'
 
 const activeTab = ref(0)
 const tabs = [
