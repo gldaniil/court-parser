@@ -22,6 +22,22 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum modi
             mollitia dicta temporibus similique sit!
           </p>
+          <input
+            class="text-black"
+            type="text"
+            @keyup.enter="handleSubmitInput"
+            v-model="inputValue"
+          />
+          <h2>Default Values</h2>
+          <ul>
+            <li v-for="url in store.urls" :key="url">{{ url }}</li>
+          </ul>
+          <h2>Get Doubled Values</h2>
+          <ul>
+            <li v-for="url in store.getTestUrls" :key="url">
+              {{ url }}
+            </li>
+          </ul>
         </article>
       </div>
     </div>
@@ -29,10 +45,19 @@
 </template>
 
 <script setup>
+import { useDataStore } from '../stores/data'
 import TheTitle from '../components/TheTitle.vue'
+import { ref } from 'vue'
 
+const store = useDataStore()
+const inputValue = ref('')
 const tables = ['Суды']
 const actions = ['Добавить', 'Удалить']
+
+const handleSubmitInput = () => {
+  store.addUrl(inputValue.value)
+  inputValue.value = ''
+}
 </script>
 
 <style scoped>
