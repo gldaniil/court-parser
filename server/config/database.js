@@ -8,7 +8,7 @@ const db = new sqlite3.Database(name, (err) => {
 
 db.serialize(() => {
   db.run(
-    `CREATE TABLE IF NOT EXISTS courts (
+    `CREATE TABLE IF NOT EXISTS courtCases (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       number TEXT,
       date TEXT,
@@ -23,7 +23,7 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       url TEXT,
       court TEXT,
-      astChanged TEXT)`,
+      lastChanged TEXT)`,
     (err) => handlingErrors(err, 'Таблица urls создана, либо уже существует.')
   )
 })
