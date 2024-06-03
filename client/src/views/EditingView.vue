@@ -1,8 +1,9 @@
 <template>
   <div class="h-full flex flex-col pl-8 pr-6 py-6">
-    <the-title>Редактирование</the-title>
+    <TheTitle>Редактирование</TheTitle>
     <div class="shadow-xl rounded-xl bg-black/30 mt-5 h-full">
       <div class="p-6 flex h-full">
+        <!-- Колонка слева -->
         <aside
           class="flex-none pr-5 xl:w-1/6 lg:w-1/5 md:w-1/4 w-1/3 border-r-2 border-gradient"
         >
@@ -19,18 +20,46 @@
             />
           </div>
         </aside>
+        <!-- Основной контент -->
         <article class="text-white flex-auto pl-4">
           <p v-if="!activeTab">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum modi
             mollitia dicta temporibus similique sit!
           </p>
           <template v-for="tab in tabs">
-            <TheTab
-              :key="tab.id"
-              v-if="tab.id === activeTab"
-              :title="tab.title"
-              :actions="actions"
-            />
+            <div :key="tab.id" v-if="tab.id === activeTab">
+              <h2 class="text-2xl">
+                Таблица - <span class="font-bold">{{ tab.title }}</span>
+              </h2>
+              <div class="mt-4">
+                <template v-if="!currentAction">
+                  <span>Выберите действие для работы с таблицей:</span>
+                  <div class="flex gap-2 mt-3">
+                    <TabButton
+                      v-for="action in actions"
+                      :key="action"
+                      :text="`${action} запись`"
+                      @clickOnButton="handleClickButton(action)"
+                    />
+                  </div>
+                </template>
+                <div v-else>
+                  <TabButton
+                    text="Назад"
+                    @clickOnButton="handleClickButton('')"
+                  />
+                  <div v-if="currentAction === 'Добавить'" class="mt-2">
+                    <p>Заполните следующие поля:</p>
+                  </div>
+                  <div v-else-if="currentAction === 'Удалить'" class="mt-2">
+                    <p>
+                      Для удаления нужно просто нажать на значок удаления рядом
+                      с нужной записью
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </template>
         </article>
       </div>
@@ -42,9 +71,10 @@
 import { ref } from 'vue'
 import TheTitle from '../components/TheTitle.vue'
 import TheButton from '../components/UI/TheButton.vue'
-import TheTab from '../components/UI/Editing/TheTab.vue'
+import TabButton from '../components/UI/Editing/TabButton.vue'
 
 const activeTab = ref(0)
+const currentAction = ref('')
 const tabs = [
   {
     id: 1,
@@ -60,6 +90,10 @@ const actions = ['Добавить', 'Удалить']
 const handleClickTab = (id) => {
   console.log(id)
   activeTab.value = id
+}
+
+const handleClickButton = (action) => {
+  currentAction.value = action
 }
 </script>
 
