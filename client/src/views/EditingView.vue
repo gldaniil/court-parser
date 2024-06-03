@@ -48,15 +48,7 @@
                     text="Назад"
                     @clickOnButton="handleClickButton('')"
                   />
-                  <div v-if="currentAction === 'Добавить'" class="mt-2">
-                    <p>Заполните следующие поля:</p>
-                  </div>
-                  <div v-else-if="currentAction === 'Удалить'" class="mt-2">
-                    <p>
-                      Для удаления нужно просто нажать на значок удаления рядом
-                      с нужной записью
-                    </p>
-                  </div>
+                  <TabText :action="currentAction"></TabText>
                 </div>
               </div>
             </div>
@@ -72,6 +64,7 @@ import { ref } from 'vue'
 import TheTitle from '../components/TheTitle.vue'
 import TheButton from '../components/UI/TheButton.vue'
 import TabButton from '../components/UI/Editing/TabButton.vue'
+import TabText from '../components/UI/Editing/TabText.vue'
 
 const activeTab = ref(0)
 const currentAction = ref('')
@@ -88,8 +81,8 @@ const tabs = [
 const actions = ['Добавить', 'Удалить']
 
 const handleClickTab = (id) => {
-  console.log(id)
   activeTab.value = id
+  currentAction.value = ''
 }
 
 const handleClickButton = (action) => {
