@@ -48,7 +48,10 @@
                     text="Назад"
                     @clickOnButton="handleClickButton('')"
                   />
-                  <TabText :action="currentAction"></TabText>
+                  <TabContent
+                    v-if="currentAction"
+                    :action="currentAction"
+                  ></TabContent>
                 </div>
               </div>
             </div>
@@ -64,7 +67,7 @@ import { ref } from 'vue'
 import TheTitle from '../components/TheTitle.vue'
 import TheButton from '../components/UI/TheButton.vue'
 import TabButton from '../components/UI/Editing/TabButton.vue'
-import TabText from '../components/UI/Editing/TabText.vue'
+import TabContent from '../components/UI/Editing/TabContent.vue'
 
 const activeTab = ref(0)
 const currentAction = ref('')
