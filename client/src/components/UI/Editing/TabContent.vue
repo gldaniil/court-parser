@@ -8,7 +8,11 @@
       </p>
       <p v-else>Invalid prop `action` value.</p>
     </div>
-    <div v-if="action === 'Добавить'"></div>
+    <div v-if="action === 'Добавить'">
+      <form>
+        <input type="text" placeholder="Введите ссылку на веб-страницу" />
+      </form>
+    </div>
     <div v-else-if="action === 'Удалить'"></div>
   </div>
 </template>
