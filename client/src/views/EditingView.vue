@@ -21,42 +21,47 @@
           </div>
         </aside>
         <!-- Основной контент -->
-        <article class="text-white flex-auto pl-4">
-          <p v-if="!activeTab">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum modi
-            mollitia dicta temporibus similique sit!
-          </p>
-          <template v-for="tab in tabs">
-            <div :key="tab.id" v-if="tab.id === activeTab">
-              <h2 class="text-2xl">
-                Таблица - <span class="font-bold">{{ tab.title }}</span>
-              </h2>
-              <div class="mt-4">
-                <template v-if="!currentAction">
-                  <span>Выберите действие для работы с таблицей:</span>
-                  <div class="flex gap-2 mt-3">
-                    <TabButton
-                      v-for="action in actions"
-                      :key="action"
-                      :text="`${action} запись`"
-                      @clickOnButton="handleClickButton(action)"
-                    />
-                  </div>
-                </template>
-                <div v-else>
+        <template v-for="tab in tabs">
+          <article
+            class="text-white flex-auto pl-4"
+            v-if="tab.id === activeTab"
+            :key="tab.id"
+          >
+            <h2 class="text-2xl">
+              Таблица - <span class="font-bold">{{ tab.title }}</span>
+            </h2>
+            <div class="mt-4">
+              <template v-if="!currentAction">
+                <span>Выберите действие для работы с таблицей:</span>
+                <div class="flex gap-2 mt-3">
                   <TabButton
-                    text="Назад"
-                    @clickOnButton="handleClickButton('')"
+                    v-for="action in actions"
+                    :key="action"
+                    :text="`${action} запись`"
+                    @clickOnButton="handleClickButton(action)"
                   />
-                  <TabContent
-                    v-if="currentAction"
-                    :action="currentAction"
-                  ></TabContent>
                 </div>
-              </div>
+              </template>
+              <template v-else>
+                <TabButton
+                  text="Назад"
+                  @clickOnButton="handleClickButton('')"
+                />
+                <TabTopText v-if="currentAction" :action="currentAction" />
+                <div class="mt-1 flex flex-col gap-2">
+                  <InputText
+                    v-for="input in inputs"
+                    :key="input.name"
+                    :title="input.title"
+                    :name="input.name"
+                    :status="input.required"
+                    v-model="formData"
+                  />
+                </div>
+              </template>
             </div>
-          </template>
-        </article>
+          </article>
+        </template>
       </div>
     </div>
   </div>
@@ -67,10 +72,12 @@ import { ref } from 'vue'
 import TheTitle from '../components/TheTitle.vue'
 import TheButton from '../components/UI/TheButton.vue'
 import TabButton from '../components/UI/Editing/TabButton.vue'
-import TabContent from '../components/UI/Editing/TabContent.vue'
+import TabTopText from '../components/UI/Editing/TabTopText.vue'
+import InputText from '../components/UI/InputText.vue'
 
 const activeTab = ref(0)
 const currentAction = ref('')
+
 const tabs = [
   {
     id: 1,
@@ -82,6 +89,24 @@ const tabs = [
   }
 ]
 const actions = ['Добавить', 'Удалить']
+
+const inputs = [
+  {
+    title: 'Ссылка',
+    name: 'url',
+    required: true
+  },
+  {
+    title: 'Название суда',
+    name: 'court',
+    required: false
+  }
+]
+
+const formData = ref({
+  url: '',
+  court: ''
+})
 
 const handleClickTab = (id) => {
   activeTab.value = id
