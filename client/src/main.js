@@ -12,6 +12,7 @@ import {
 
 import App from './App.vue'
 import router from './router'
+import AxiosPlugin from './plugins/axios-plugin'
 
 addIcons(CoHome, BiQuestionCircle, MdArrowforwardios, BiPlusCircle)
 
@@ -21,5 +22,6 @@ const app = createApp(App)
 app.component('v-icon', OhVueIcon)
 app.use(pinia)
 app.use(router)
+app.use(AxiosPlugin)
 
 app.mount('#app')
