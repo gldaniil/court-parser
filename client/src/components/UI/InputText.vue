@@ -48,13 +48,3 @@ const theModel = computed({
   set: (value) => emit('update:modelValue', value)
 })
 </script>
-
-<style scoped>
-.required {
-  position: relative;
-}
-.required::after {
-  content: '*';
-  position: absolute;
-}
-</style>
