@@ -16,7 +16,7 @@
               :key="tab.id"
               :text="tab.title"
               :isActive="tab.id === activeTab"
-              @clickOnTab="() => handleClickTab(tab.id)"
+              @onClick="() => handleClickTab(tab.id)"
             />
           </div>
         </aside>
@@ -49,14 +49,19 @@
                 />
                 <TabTopText v-if="currentAction" :action="currentAction" />
                 <div class="mt-1 flex flex-col gap-2">
-                  <InputText
-                    v-for="input in inputs"
-                    :key="input.name"
-                    :title="input.title"
-                    :name="input.name"
-                    :status="input.required"
-                    v-model="formData"
-                  />
+                  <template v-if="currentAction === 'Добавить'">
+                    <InputText
+                      v-for="input in inputs"
+                      :key="input.name"
+                      :title="input.title"
+                      :name="input.name"
+                      :status="input.required"
+                      v-model="formData"
+                    />
+                    <div class="mt-6">
+                      <TheButton text="Сохранить" @onClick="handleClickSave" />
+                    </div>
+                  </template>
                 </div>
               </template>
             </div>
@@ -68,13 +73,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import TheTitle from '../components/TheTitle.vue'
 import TheButton from '../components/UI/TheButton.vue'
 import TabButton from '../components/UI/Editing/TabButton.vue'
 import TabTopText from '../components/UI/Editing/TabTopText.vue'
 import InputText from '../components/UI/InputText.vue'
 
+const axios = inject('axios')
 const activeTab = ref(0)
 const currentAction = ref('')
 
@@ -115,6 +121,21 @@ const handleClickTab = (id) => {
 
 const handleClickButton = (action) => {
   currentAction.value = action
+}
+
+const handleClickSave = () => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.post('/api/urls', {
+        url: formData.value.url,
+        court: formData.value.court
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  fetchData()
 }
 </script>
 

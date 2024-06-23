@@ -4,7 +4,7 @@
       'bg-violet-400 text-white': isActive,
       'bg-white text-violet-400': !isActive
     }"
-    class="shadow-lg text-lg font-semibold hover:text-violet-700 hover:bg-violet-200 duration-300 px-4 py-3 rounded-xl w-full"
+    class="shadow-lg text-lg font-semibold hover:text-violet-700 hover:bg-violet-200 duration-300 px-4 py-3 rounded-xl"
     @click="buttonClick"
   >
     {{ text }}
@@ -21,9 +21,9 @@ defineProps({
     type: Boolean
   }
 })
-const emit = defineEmits(['click-on-tab'])
+const emit = defineEmits(['onClick'])
 
 function buttonClick() {
-  emit('click-on-tab')
+  emit('onClick')
 }
 </script>
