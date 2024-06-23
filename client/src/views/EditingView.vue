@@ -85,6 +85,10 @@ const store = useAlertsStore()
 const axios = inject('axios')
 const activeTab = ref(0)
 const currentAction = ref('')
+const formData = ref({
+  url: '',
+  court: ''
+})
 
 const tabs = [
   {
@@ -111,11 +115,6 @@ const inputs = [
   }
 ]
 
-const formData = ref({
-  url: '',
-  court: ''
-})
-
 const handleClickTab = (id) => {
   activeTab.value = id
   currentAction.value = ''
@@ -128,16 +127,22 @@ const handleClickButton = (action) => {
 const handleClickSave = () => {
   const fetchData = async () => {
     try {
-      const response = await axios.post('/api/urls', {
+      const { data } = await axios.post('/api/courts', {
         url: formData.value.url,
         court: formData.value.court
       })
-      console.log(response.data)
+      if (data !== 'Success') store.message = data
+      else {
+        store.message = ''
+        formData.value.url = ''
+        formData.value.court = ''
+      }
       store.table = tabs[activeTab.value - 1].title
-      store.activate()
     } catch (error) {
+      store.message = error
       console.error(error)
     }
+    store.activate()
   }
   fetchData()
 }
