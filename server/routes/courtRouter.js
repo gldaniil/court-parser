@@ -1,8 +1,8 @@
-const express = require('express')
-const courtController = require('../controllers/courtController')
-const courtRouter = express.Router()
+const express = require('express');
+const courtController = require('../controllers/courtController');
+const courtRouter = express.Router();
 
-courtRouter.use('/add', courtController.addCourt)
-courtRouter.use('/', courtController.getCourts)
+courtRouter.get('/', courtController.getUrls);
+courtRouter.post('/', courtController.addUrl);
 
-module.exports = courtRouter
+module.exports = courtRouter;
