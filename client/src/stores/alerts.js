@@ -4,10 +4,14 @@ import { ref } from 'vue'
 export const useAlertsStore = defineStore('alerts', () => {
   const alert = ref(false)
   const table = ref('')
+  const message = ref('')
 
   function activate() {
-    alert.value = !alert.value
+    alert.value = true
+    setTimeout(() => {
+      alert.value = false
+    }, 3000)
   }
 
-  return { alert, table, activate }
+  return { alert, table, message, activate }
 })
