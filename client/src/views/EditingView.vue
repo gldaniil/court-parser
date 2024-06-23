@@ -74,12 +74,14 @@
 
 <script setup>
 import { inject, ref } from 'vue'
+import { useAlertsStore } from '../stores/alerts'
 import TheTitle from '../components/TheTitle.vue'
 import TheButton from '../components/UI/TheButton.vue'
 import TabButton from '../components/UI/Editing/TabButton.vue'
 import TabTopText from '../components/UI/Editing/TabTopText.vue'
 import InputText from '../components/UI/InputText.vue'
 
+const store = useAlertsStore()
 const axios = inject('axios')
 const activeTab = ref(0)
 const currentAction = ref('')
@@ -131,6 +133,8 @@ const handleClickSave = () => {
         court: formData.value.court
       })
       console.log(response.data)
+      store.table = tabs[activeTab.value - 1].title
+      store.activate()
     } catch (error) {
       console.error(error)
     }
