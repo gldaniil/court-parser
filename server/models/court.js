@@ -22,7 +22,13 @@ module.exports = class Courts {
 			}
 		);
 	}
-	static get() {
-		return 'ответ на get';
+	static get(res) {
+		db.all(`SELECT rowid, * FROM courts`, [], function (err, rows) {
+			if (err) {
+				res.send(err);
+				return console.log(err);
+			}
+			res.send(rows);
+		});
 	}
 };

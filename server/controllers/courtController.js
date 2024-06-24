@@ -5,6 +5,6 @@ exports.addUrl = (req, res) => {
 	const courtData = new Courts(url, court);
 	courtData.add(res);
 };
-exports.getUrls = (req, res) => {
-	res.send(courtData.get());
+exports.getUrls = (_, res) => {
+	Courts.get(res);
 };
