@@ -7,21 +7,24 @@
           <p>Список доступных городов пуст.</p>
           <button @click="getCourts">Получить суды</button>
         </div>
-        <div v-else class="flex">
+        <template v-else>
           <template v-if="!$route.params.id">
-            <div
-              class="rounded bg-white text-sky-700 p-4 cursor-pointer"
-              v-for="court in courts"
-              :key="court.rowid"
-            >
-              <RouterLink
-                :to="{ name: 'court', params: { id: court.rowid } }"
-                >{{ court.court }}</RouterLink
+            <TabButton text="Обновить списки решений " />
+            <div class="flex mt-4">
+              <div
+                class="rounded bg-white text-sky-700 p-4 cursor-pointer"
+                v-for="court in courts"
+                :key="court.rowid"
               >
+                <RouterLink
+                  :to="{ name: 'court', params: { id: court.rowid } }"
+                  >{{ court.court }}</RouterLink
+                >
+              </div>
             </div>
           </template>
           <RouterView />
-        </div>
+        </template>
       </div>
     </div>
   </div>
@@ -31,6 +34,7 @@
 import { inject, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import TheTitle from '../components/TheTitle.vue'
+import TabButton from '../components/UI/Editing/TabButton.vue'
 
 const axios = inject('axios')
 const courts = ref([])
