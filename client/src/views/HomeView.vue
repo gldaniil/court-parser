@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import TheTitle from '../components/TheTitle.vue'
 import TabButton from '../components/UI/Editing/TabButton.vue'
@@ -39,16 +39,11 @@ import TabButton from '../components/UI/Editing/TabButton.vue'
 const axios = inject('axios')
 const courts = ref([])
 
-async function getCourts() {
-  const { data } = await axios.get('/api/courts')
-  console.log(data)
-  courts.value = data
-}
-// FOR RELEASE
-// onMounted(() => {
-//   async function getCourts() {
-//     const { data } = await axios.get('/api/courts')
-//   }
-//   getCourts()
-// })
+onMounted(() => {
+  async function getCourts() {
+    const { data } = await axios.get('/api/courts')
+    courts.value = data
+  }
+  getCourts()
+})
 </script>
