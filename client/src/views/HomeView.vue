@@ -9,7 +9,10 @@
         </div>
         <template v-else>
           <template v-if="!$route.params.id">
-            <TabButton text="Обновить списки решений " />
+            <TabButton
+              text="Обновить списки решений"
+              @clickOnButton="handleUpdateSolutions()"
+            />
             <div class="flex mt-4">
               <div
                 class="rounded bg-white text-sky-700 p-4 cursor-pointer"
@@ -46,4 +49,15 @@ onMounted(() => {
   }
   getCourts()
 })
+
+const handleUpdateSolutions = () => {
+  const data = JSON.stringify(courts.value)
+  async function updateSolutionsList() {
+    const res = await axios.post('/api/solutions', {
+      data
+    })
+    console.log(res)
+  }
+  updateSolutionsList()
+}
 </script>

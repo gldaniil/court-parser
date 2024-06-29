@@ -5,8 +5,10 @@
         <TabButton text="Назад" @clickOnButton="navigate" />
       </template>
     </RouterLink>
-    <h2>Solutions List</h2>
-    <span>{{ $route.params }}</span>
+    <div class="mt-2">
+      <h2>Solutions List</h2>
+      <span>{{ $route.params }}</span>
+    </div>
   </div>
 </template>
 
