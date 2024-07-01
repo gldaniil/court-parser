@@ -21,7 +21,7 @@
               >
                 <RouterLink
                   :to="{ name: 'court', params: { id: court.rowid } }"
-                  >{{ court.court }}</RouterLink
+                  >{{ court.name }}</RouterLink
                 >
               </div>
             </div>
