@@ -104,6 +104,26 @@ module.exports = class Solutions {
 			return solutions;
 		}
 
+		function saveSolutions(arrayData, rowid) {
+			if (!arrayData.length) return;
+
+			const dateAdded = new Date().toLocaleDateString();
+			for (const row of arrayData) {
+				try {
+					db.run('INSERT OR IGNORE INTO solutions VALUES(?,?,?,?,?,?)', [
+						row.number,
+						row.date,
+						row.plaintiff,
+						row.defendant,
+						rowid,
+						dateAdded,
+					]);
+				} catch (e) {
+					console.log(e);
+				}
+			}
+			console.log('Код выполнился');
+		}
 		const code = await request(url);
 
 		if (!code) return;
@@ -118,10 +138,9 @@ module.exports = class Solutions {
 
 		const arrayData = getCellData(rows);
 
-		console.log(arrayData);
+		saveSolutions(arrayData, rowid);
 	}
 	init(courtsList) {
-		console.log(courtsList);
 		const result = courtsList.map(court => {
 			this.#initParse(court);
 		});

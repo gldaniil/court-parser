@@ -9,8 +9,8 @@ module.exports = class Courts {
 	}
 	add(res) {
 		db.run(
-			`INSERT INTO courts VALUES(?,?,?)`,
-			[this.url, this.court, null],
+			`INSERT INTO courts VALUES(?,?,?,?)`,
+			[this.url, this.court, null, null],
 			function (err) {
 				if (err) {
 					res.send(err.message);

@@ -8,21 +8,22 @@ const db = new sqlite3.Database(name, err => {
 
 db.serialize(() => {
 	db.run(
-		`CREATE TABLE IF NOT EXISTS courtCases (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+		`CREATE TABLE IF NOT EXISTS solutions (
       number TEXT,
       date TEXT,
       plaintiff TEXT,
       defendant TEXT,
-      court TEXT,
-      dateAdded TEXT)`,
+      court_id INTEGER,
+      dateAdded TEXT,
+			UNIQUE(number, date, plaintiff, court_id))`,
 		err =>
-			handlingErrors(err, 'Таблица courtsCases создана, либо уже существует.')
+			handlingErrors(err, 'Таблица solutions создана, либо уже существует.')
 	),
 		db.run(
 			`CREATE TABLE IF NOT EXISTS courts (
       url TEXT NOT NULL UNIQUE,
-      court TEXT,
+      name TEXT,
+			location TEXT,
       lastChanged TEXT)`,
 			err => handlingErrors(err, 'Таблица courts создана, либо уже существует.')
 		);
