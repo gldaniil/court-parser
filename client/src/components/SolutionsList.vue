@@ -15,4 +15,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import TabButton from '../components/UI/Editing/TabButton.vue'
+import { useSolutionStore } from '../stores/solution'
+
+const solutionStore = useSolutionStore()
 </script>

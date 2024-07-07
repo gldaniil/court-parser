@@ -141,7 +141,7 @@ module.exports = class Solutions {
 		saveSolutions(arrayData, rowid);
 	}
 	init(courtsList) {
-		const result = courtsList.map(court => {
+		courtsList.forEach(court => {
 			this.#initParse(court);
 		});
 	}

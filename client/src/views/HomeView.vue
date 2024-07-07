@@ -38,9 +38,18 @@ import { inject, onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import TheTitle from '../components/TheTitle.vue'
 import TabButton from '../components/UI/Editing/TabButton.vue'
+import { socket } from '../plugins/socket'
+import { useSolutionStore } from '../stores/solution'
+
+const solutionStore = useSolutionStore()
 
 const axios = inject('axios')
 const courts = ref([])
+
+onMounted(() => {
+  socket.off()
+  solutionStore.bindEvents()
+})
 
 onMounted(() => {
   async function getCourts() {
