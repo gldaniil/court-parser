@@ -4,6 +4,7 @@ const { JSDOM } = jsdom;
 const iconv = require('iconv-lite');
 const sqlite3 = require('sqlite3').verbose();
 const { name } = require('../config/database');
+const { sendSolution } = require('../utils/socket-io');
 const db = new sqlite3.Database(name);
 
 let options = {
@@ -121,6 +122,7 @@ module.exports = class Solutions {
 				} catch (e) {
 					console.log(e);
 				}
+				sendSolution(row);
 			}
 			console.log('Код выполнился');
 		}

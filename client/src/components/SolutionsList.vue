@@ -9,6 +9,18 @@
       <h2>Solutions List</h2>
       <span>{{ $route.params }}</span>
     </div>
+    <div class="mt-2">
+      <div
+        v-for="solution in solutionStore.solutions"
+        :key="solution.rowid"
+        class="bg-white"
+      >
+        <div class="">{{ solution.number }}</div>
+        <div class="">{{ solution.date }}</div>
+        <div class="">{{ solution.plaintiff }}</div>
+        <div class="">{{ solution.defendant }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
