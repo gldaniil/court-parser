@@ -1,7 +1,11 @@
 const Solutions = require('../models/solution');
 
 exports.get = (req, res) => {
-	res.send('Success get-fn');
+	if (!req.query.id) {
+		res.status(400).send('Missing parameter "id"');
+	}
+	const solutionData = new Solutions();
+	solutionData.getById(res, req.query.id);
 };
 exports.init = (req, res) => {
 	const data = JSON.parse(req.body.data);

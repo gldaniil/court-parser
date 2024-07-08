@@ -20,6 +20,22 @@ module.exports = class Solutions {
 		this.data = data;
 	}
 
+	getById(res, id) {
+		async function get(res, id) {
+			const arr = [];
+			db.each(
+				`SELECT number, date, plaintiff, defendant, court_id, dateAdded FROM solutions WHERE court_id = ?`,
+				[id],
+				(e, row) => {
+					if (e) return console.log(e.message);
+					arr.push(row);
+				},
+				() => res.status(200).send(JSON.stringify(arr))
+			);
+		}
+		get(res, id);
+	}
+
 	async #initParse({ rowid, url, name, location, lastChanged }) {
 		async function request(url) {
 			try {
@@ -60,7 +76,7 @@ module.exports = class Solutions {
 		}
 
 		function getTableRows(table) {
-			if (!table.children.length) return;
+			if (!table || !table.children.length) return;
 
 			const rows = [];
 
@@ -77,7 +93,7 @@ module.exports = class Solutions {
 		}
 
 		function getCellData(rows) {
-			if (!rows.length) return [];
+			if (!rows || !rows.length) return [];
 
 			const solutions = [];
 
