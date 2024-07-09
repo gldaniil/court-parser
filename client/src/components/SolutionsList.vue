@@ -5,29 +5,35 @@
         <TabButton text="Назад" @clickOnButton="navigate" />
       </template>
     </RouterLink>
-    <div class="mt-2">
-      <h2>Solutions List</h2>
-      <span>{{ $route.params }}</span>
-    </div>
-    <div class="mt-2">
+    <div class="mt-8 grid grid-cols-4 gap-4 content-between">
       <div
-        v-for="solution in solutionStore.solutions"
+        v-for="solution in solutions"
         :key="solution.rowid"
-        class="bg-white"
+        class="flex flex-col h-32 rounded-lg p-2 bg-white"
       >
-        <div class="">{{ solution.number }}</div>
-        <div class="">{{ solution.date }}</div>
-        <div class="">{{ solution.plaintiff }}</div>
-        <div class="">{{ solution.defendant }}</div>
+        <div class="flex justify-between text-right hover:bg-slate-400">
+          <span class="font-bold">Номер дела:</span> {{ solution.number }}
+        </div>
+        <div class="flex justify-between text-right hover:bg-slate-400">
+          <span class="font-bold">Дата:</span>{{ solution.date }}
+        </div>
+        <div class="flex justify-between text-right hover:bg-slate-400">
+          <span class="font-bold">Истец:</span>{{ solution.plaintiff }}
+        </div>
+        <div class="flex justify-between text-right hover:bg-slate-400">
+          <span class="font-bold">Ответчик:</span>{{ solution.defendant }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import TabButton from '../components/UI/Editing/TabButton.vue'
 import { useSolutionStore } from '../stores/solution'
 
 const solutionStore = useSolutionStore()
+const solutions = computed(() => solutionStore.$state.solutions)
 </script>
