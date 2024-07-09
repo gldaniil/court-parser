@@ -13,7 +13,7 @@
               text="Обновить списки решений"
               @clickOnButton="handleUpdateSolutions()"
             />
-            <div class="flex mt-4">
+            <div class="grid grid-cols-4 gap-4 mt-4">
               <div
                 class="rounded bg-white text-sky-700 p-4 cursor-pointer"
                 v-for="court in courts"
@@ -21,6 +21,7 @@
               >
                 <RouterLink
                   :to="{ name: 'court', params: { id: court.rowid } }"
+                  @click="() => handleClickCourt(court.rowid)"
                   >{{ court.name }}</RouterLink
                 >
               </div>
@@ -68,5 +69,21 @@ const handleUpdateSolutions = () => {
     console.log(res)
   }
   updateSolutionsList()
+}
+
+const handleClickCourt = (id) => {
+  async function getSolutions(id) {
+    const { data } = await axios.get('/api/solutions', {
+      params: {
+        id: id
+      }
+    })
+    solutionStore.$state = { solutions: [...data] }
+  }
+  if (solutionStore.currentCourt !== id) {
+    solutionStore.solutions = []
+    solutionStore.currentCourt = id
+    getSolutions(id)
+  }
 }
 </script>
