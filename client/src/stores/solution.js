@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { socket } from '../plugins/socket'
 
 export const useSolutionStore = defineStore('solutions', () => {
+  const currentCourt = ref('')
   const solutions = reactive([])
 
   function bindEvents() {
@@ -19,5 +20,5 @@ export const useSolutionStore = defineStore('solutions', () => {
     })
   }
 
-  return { solutions, bindEvents }
+  return { currentCourt, solutions, bindEvents }
 })
