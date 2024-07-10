@@ -5,7 +5,9 @@
         <TabButton text="Назад" @clickOnButton="navigate" />
       </template>
     </RouterLink>
-    <div class="mt-8 grid grid-cols-4 gap-4 content-between">
+    <div
+      class="mt-8 grid grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 gap-4 content-between"
+    >
       <div
         v-for="solution in solutions"
         :key="solution.rowid"
