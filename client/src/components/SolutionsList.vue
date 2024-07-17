@@ -1,10 +1,13 @@
 <template>
   <div class="text-sm">
-    <RouterLink :to="{ name: 'home' }" custom>
-      <template v-slot:default="{ navigate }">
-        <TabButton text="Назад" @clickOnButton="navigate" />
-      </template>
-    </RouterLink>
+    <div class="flex gap-2">
+      <RouterLink :to="{ name: 'home' }" custom>
+        <template v-slot:default="{ navigate }">
+          <TabButton text="Назад" @clickOnButton="navigate" />
+        </template>
+      </RouterLink>
+      <TabButton text="Обновить" @clickOnButton="handleGetSolutions" />
+    </div>
     <div
       class="mt-8 grid grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 gap-4 content-between"
     >
@@ -38,4 +41,8 @@ import { useSolutionStore } from '../stores/solution'
 
 const solutionStore = useSolutionStore()
 const solutions = computed(() => solutionStore.$state.solutions)
+
+const handleGetSolutions = () => {
+  console.log(solutionStore.currentCourt)
+}
 </script>

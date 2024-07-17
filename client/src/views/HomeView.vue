@@ -21,7 +21,7 @@
               >
                 <RouterLink
                   :to="{ name: 'court', params: { id: court.rowid } }"
-                  @click="() => handleClickCourt(court.rowid)"
+                  @click="() => handleClickCourt(court.rowid, court.url)"
                   >{{ court.name }}</RouterLink
                 >
               </div>
@@ -71,7 +71,7 @@ const handleUpdateSolutions = () => {
   updateSolutionsList()
 }
 
-const handleClickCourt = (id) => {
+const handleClickCourt = (id, url) => {
   async function getSolutions(id) {
     const { data } = await axios.get('/api/solutions', {
       params: {
@@ -80,9 +80,13 @@ const handleClickCourt = (id) => {
     })
     solutionStore.$state = { solutions: [...data] }
   }
-  if (solutionStore.currentCourt !== id) {
+  if (solutionStore.currentCourt.id !== id) {
     solutionStore.solutions = []
-    solutionStore.currentCourt = id
+    solutionStore.$patch((state) => {
+      ;(state.solutions = []),
+        (state.currentCourt.id = id),
+        (state.currentCourt.url = url)
+    })
     getSolutions(id)
   }
 }
