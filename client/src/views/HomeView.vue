@@ -81,7 +81,6 @@ const handleClickCourt = (id, url) => {
     solutionStore.$state = { solutions: [...data] }
   }
   if (solutionStore.currentCourt.id !== id) {
-    solutionStore.solutions = []
     solutionStore.$patch((state) => {
       ;(state.solutions = []),
         (state.currentCourt.id = id),
