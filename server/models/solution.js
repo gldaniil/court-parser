@@ -128,7 +128,7 @@ module.exports = class Solutions {
 			const offset = new Date().getTimezoneOffset() * 60000;
 			const dateAdded = new Date(Date.now() - offset)
 				.toISOString()
-				.slice(0, -1);
+				.split('T')[0];
 
 			for (const row of arrayData) {
 				try {
@@ -149,7 +149,7 @@ module.exports = class Solutions {
 							}
 							// Если INSERT добавил значение
 							if (this.changes) {
-								sendSolution(row);
+								sendSolution({ ...row, court_id: rowid, dateAdded });
 							}
 						}
 					);
