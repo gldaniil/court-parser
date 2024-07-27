@@ -124,23 +124,39 @@ module.exports = class Solutions {
 		function saveSolutions(arrayData, rowid) {
 			if (!arrayData.length) return;
 
-			const dateAdded = new Date().toLocaleDateString();
+			// Вычисление текущей даты с учётом timezone
+			const offset = new Date().getTimezoneOffset() * 60000;
+			const dateAdded = new Date(Date.now() - offset)
+				.toISOString()
+				.slice(0, -1);
+
 			for (const row of arrayData) {
 				try {
-					db.run('INSERT OR IGNORE INTO solutions VALUES(?,?,?,?,?,?)', [
-						row.number,
-						row.date,
-						row.plaintiff,
-						row.defendant,
-						rowid,
-						dateAdded,
-					]);
+					db.run(
+						'INSERT OR IGNORE INTO solutions VALUES(?,?,?,?,?,?)',
+						[
+							row.number,
+							row.date,
+							row.plaintiff,
+							row.defendant,
+							rowid,
+							dateAdded,
+						],
+						function (err) {
+							if (err) {
+								console.error('Ошибка при выполнении запроса:', err);
+								return;
+							}
+							// Если INSERT добавил значение
+							if (this.changes) {
+								sendSolution(row);
+							}
+						}
+					);
 				} catch (e) {
-					console.log(e);
+					console.log('Ошибка при сохранении решения:', e);
 				}
-				sendSolution(row);
 			}
-			console.log('Код выполнился');
 		}
 		const code = await request(url);
 
