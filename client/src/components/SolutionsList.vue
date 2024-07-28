@@ -9,13 +9,13 @@
       <TabButton text="Обновить" @clickOnButton="handleGetSolutions" />
     </div>
     <div v-for="category in categories" :key="category" :class="category">
-      <div class="my-4">
+      <div class="my-4" @click="isVisible = !isVisible">
         <p class="text-white text-base font-semibold">
-          {{ category }}
+          {{ formatCategory(category) }}
         </p>
       </div>
       <div
-        v-if="!isVisible"
+        v-if="isVisible"
         class="mt-2 grid grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 gap-4 content-between"
       >
         <template v-for="solution in solutions">
@@ -44,17 +44,31 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import TabButton from '../components/UI/Editing/TabButton.vue'
 import { useSolutionStore } from '../stores/solution'
 
 const solutionStore = useSolutionStore()
 
-const solutions = computed(() => solutionStore.$state.solutions)
-const categories = computed(() =>
-  [...new Set(solutionStore.$state.solutions.map((s) => s.dateAdded))].reverse()
+const isVisible = ref(true)
+
+const solutions = computed(() =>
+  solutionStore.$state.solutions.filter(
+    (s) => s.court_id === solutionStore.$state.currentCourt.id
+  )
 )
+
+const categories = computed(() =>
+  [...new Set(solutions.value.map((s) => s.dateAdded))].sort(
+    (a, b) => new Date(b).getTime() - new Date(a).getTime()
+  )
+)
+
+const formatCategory = (c) => {
+  const parts = c.split('-')
+  return `${parts[2]}.${parts[1]}.${parts[0]}`
+}
 
 const handleGetSolutions = () => {
   console.log(solutionStore.currentCourt)
