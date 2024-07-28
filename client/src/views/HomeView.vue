@@ -50,6 +50,12 @@ const courts = ref([])
 onMounted(() => {
   socket.off()
   solutionStore.bindEvents()
+
+  socket.on('solution:get', (res) => {
+    solutionStore.$patch((state) => {
+      state.solutions.push(res)
+    })
+  })
 })
 
 onMounted(() => {
@@ -63,10 +69,9 @@ onMounted(() => {
 const handleUpdateSolutions = () => {
   const data = JSON.stringify(courts.value)
   async function updateSolutionsList() {
-    const res = await axios.post('/api/solutions', {
+    await axios.post('/api/solutions', {
       data
     })
-    console.log(res)
   }
   updateSolutionsList()
 }
@@ -78,7 +83,10 @@ const handleClickCourt = (id, url) => {
         id: id
       }
     })
-    solutionStore.$state = { solutions: [...data] }
+    console.log('data', data)
+    solutionStore.$patch((state) => {
+      state.solutions.push(...data)
+    })
   }
   if (solutionStore.currentCourt.id !== id) {
     solutionStore.$patch((state) => {
